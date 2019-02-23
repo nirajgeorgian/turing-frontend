@@ -1,7 +1,7 @@
 import { createActions, createAction, handleActions } from 'redux-actions'
 import { config } from '../../../config'
 
-const { api_url } = process.env.NODE_ENV === 'production' ? config['prod'] : config['dev']
+const { api_url, api_version } = process.env.NODE_ENV === 'production' ? config['prod'] : config['dev']
 const loginState = {
 	token: null,
 	error: null,
@@ -31,7 +31,7 @@ export const loginAction = (data) => {
 		if (!state().login.status) {
 			dispatch(login())
 			return axios
-				.post('http://localhost:8080/api/v1/auth/login', data)
+				.post(`${api_url}/${api_version}/auth/login`, data)
 				.then((res) => {
 					const { status } = res
 					if (status === 200) {

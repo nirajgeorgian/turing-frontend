@@ -92,7 +92,7 @@ const FormikSignup = withFormik({
 			const { payload } = data
 			if (payload.status === 201) {
 				const { user } = payload.data
-				props.history.push(`/verify/phone/${encodeURI(user)}`)
+				props.history.push('/login')
 			}
 		} catch (e) {
 			return setSubmitting(false)
