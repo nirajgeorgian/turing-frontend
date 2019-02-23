@@ -3,6 +3,7 @@ import { withFormik } from 'formik'
 import { connect } from 'react-redux'
 import { Link, withRouter } from 'react-router-dom'
 import * as Yup from 'yup'
+import { Alert } from 'reactstrap'
 
 import TextField from '../../../components/UIs/input_elements/text_field'
 import AltButton from '../../../components/UIs/button'
@@ -52,6 +53,11 @@ class SignupForm extends PureComponent {
 					hasError={errors.password && touched.password ? true : false}
 					error={errors.password && touched.password && errors.password}
 				/>
+				{error && (signedUp === false && user === null) ? (
+					<Alert onClick={() => this.props.dispatch(signupErrorClear())} color="danger">
+						{error}
+					</Alert>
+				) : null}
 				<AltButton type="submit" disabled={status || error ? true : false}>
 					Register
 				</AltButton>
@@ -60,7 +66,6 @@ class SignupForm extends PureComponent {
 						<Link to="/login">Already have Account</Link>
 					</div>
 				</div>
-				{error && (signedUp === false && user === null) ? <div>error</div> : null}
 			</form>
 		)
 	}
@@ -87,7 +92,7 @@ const FormikSignup = withFormik({
 			const { payload } = data
 			if (payload.status === 201) {
 				const { user } = payload.data
-				props.history.push(`/verify/phone/${encodeURI(user)}`)
+				props.history.push('/login')
 			}
 		} catch (e) {
 			return setSubmitting(false)

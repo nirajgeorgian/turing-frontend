@@ -1,5 +1,6 @@
 import React, { PureComponent } from 'react'
 import {
+	Button,
 	Collapse,
 	Navbar,
 	NavbarToggler,
@@ -32,7 +33,9 @@ class AppNavbar extends PureComponent {
 				<DropdownMenu right>
 					<DropdownItem>Update Profile</DropdownItem>
 					<DropdownItem divider />
-					<DropdownItem>logout</DropdownItem>
+					<DropdownItem onClick={this.props.logout} color="link">
+						logout
+					</DropdownItem>
 				</DropdownMenu>
 			</UncontrolledDropdown>
 		)

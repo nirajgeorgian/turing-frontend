@@ -4,6 +4,7 @@ import { withRouter } from 'react-router-dom'
 import { withFormik } from 'formik'
 import { Link } from 'react-router-dom'
 import * as Yup from 'yup'
+import { Alert } from 'reactstrap'
 
 import TextField from '../../../components/UIs/input_elements/text_field'
 import AltButton from '../../../components/UIs/button'
@@ -40,6 +41,11 @@ class LoginForm extends PureComponent {
 					hasError={errors.password && touched.password ? true : false}
 					error={errors.password && touched.password && errors.password}
 				/>
+				{error && token === null ? (
+					<Alert onClick={() => this.props.dispatch(loginErrorClear())} color="danger">
+						{error}
+					</Alert>
+				) : null}
 				<AltButton outline block type="submit" disabled={status || error ? true : false}>
 					Login
 				</AltButton>
@@ -50,7 +56,6 @@ class LoginForm extends PureComponent {
 						</p>
 					</div>
 				</div>
-				{error && token === null ? <div>error</div> : null}
 			</form>
 		)
 	}

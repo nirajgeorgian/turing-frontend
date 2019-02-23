@@ -1,5 +1,7 @@
 import { createActions, createAction, handleActions } from 'redux-actions'
+import { config } from '../../../config'
 
+const { api_url, api_version } = process.env.NODE_ENV === 'production' ? config['prod'] : config['dev']
 const signupState = {
 	signedUp: false,
 	user: null,
@@ -25,12 +27,12 @@ export const signupAction = (data) => {
 		if (!state().signup.state) {
 			dispatch(signup())
 			return axios
-				.post('https://api.alterhop.com/auth/signup', data)
+				.post(`${api_url}/${api_version}/auth/signup`, data)
 				.then((res) => {
 					if (res.status === 201) {
 						return dispatch(signupSuccess(res))
 					} else {
-						return dispatch(signupFail(res.data.data.response))
+						return dispatch(signupFail(res))
 					}
 				})
 				.catch((err) => {

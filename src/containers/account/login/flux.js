@@ -1,7 +1,7 @@
 import { createActions, createAction, handleActions } from 'redux-actions'
 import { config } from '../../../config'
 
-const { api_url } = process.env.NODE_ENV === 'production' ? config['prod'] : config['dev']
+const { api_url, api_version } = process.env.NODE_ENV === 'production' ? config['prod'] : config['dev']
 const loginState = {
 	token: null,
 	error: null,
@@ -31,35 +31,37 @@ export const loginAction = (data) => {
 		if (!state().login.status) {
 			dispatch(login())
 			return axios
-				.post(`${api_url}/auth/login`, data)
+				.post(`${api_url}/${api_version}/auth/login`, data)
 				.then((res) => {
 					const { status } = res
 					if (status === 200) {
 						return localforage
-							.setItem('auth_login_token', res.data.token)
+							.setItem('auth_login_token', res.data.customer.token)
 							.then(() => {
 								return dispatch(loginSuccess(res))
 							})
 							.catch((err) => {
-								return dispatch(loginFail(res.data.data.response))
+								return dispatch(loginFail({ data: { message: err.message } }))
 							})
 					} else {
-						return dispatch(loginFail(res.data.data.response))
+						return dispatch(loginFail(res))
 					}
 				})
 				.catch((err) => {
 					return dispatch(loginFail(err.response))
 				})
 		} else {
-			return false
+			return dispatch(loginFail({ data: { message: 'Login Error. Please Refresh and try again' } }))
 		}
 	}
 }
 export const logoutAction = () => {
 	return (dispatch, state, { localforage }) => {
+		console.log('dodo')
 		if (state().login.loggedIn) {
 			try {
-				return localforage.removeItem('auth_login_token').then(() => {
+				console.log('try')
+				localforage.removeItem('auth_login_token').then(() => {
 					return dispatch(logout())
 				})
 			} catch (e) {
