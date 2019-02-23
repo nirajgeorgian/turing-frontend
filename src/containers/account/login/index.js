@@ -15,11 +15,6 @@ class LoginForm extends PureComponent {
 		const { values, handleChange, handleSubmit, errors, touched, error, token, status } = this.props
 		return (
 			<form className="alt-form" onSubmit={handleSubmit}>
-				{error && token === null ? (
-					<Alert onClick={() => this.props.dispatch(loginErrorClear())} color="danger">
-						{error}
-					</Alert>
-				) : null}
 				<TextField
 					type="email"
 					name="email"
@@ -46,6 +41,11 @@ class LoginForm extends PureComponent {
 					hasError={errors.password && touched.password ? true : false}
 					error={errors.password && touched.password && errors.password}
 				/>
+				{error && token === null ? (
+					<Alert onClick={() => this.props.dispatch(loginErrorClear())} color="danger">
+						{error}
+					</Alert>
+				) : null}
 				<AltButton outline block type="submit" disabled={status || error ? true : false}>
 					Login
 				</AltButton>

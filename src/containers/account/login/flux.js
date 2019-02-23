@@ -34,14 +34,14 @@ export const loginAction = (data) => {
 				.post('http://localhost:8080/api/v1/auth/login', data)
 				.then((res) => {
 					const { status } = res
-					if (status === 201) {
+					if (status === 200) {
 						return localforage
 							.setItem('auth_login_token', res.data.customer.token)
 							.then(() => {
 								return dispatch(loginSuccess(res))
 							})
 							.catch((err) => {
-								return dispatch(loginFail(res))
+								return dispatch(loginFail({ data: { message: err.message } }))
 							})
 					} else {
 						return dispatch(loginFail(res))
@@ -57,9 +57,11 @@ export const loginAction = (data) => {
 }
 export const logoutAction = () => {
 	return (dispatch, state, { localforage }) => {
+		console.log('dodo')
 		if (state().login.loggedIn) {
 			try {
-				return localforage.removeItem('auth_login_token').then(() => {
+				console.log('try')
+				localforage.removeItem('auth_login_token').then(() => {
 					return dispatch(logout())
 				})
 			} catch (e) {
