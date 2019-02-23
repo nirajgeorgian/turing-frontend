@@ -20,7 +20,7 @@ class LoginForm extends PureComponent {
 					value={values.email}
 					onChange={(e) => {
 						handleChange(e)
-						const dispatch = error ? this.props.dispatch(loginErrorClear()) : null
+						return error ? this.props.dispatch(loginErrorClear()) : null
 					}}
 					placeholder="Enter your email"
 					label="Email"
@@ -33,7 +33,7 @@ class LoginForm extends PureComponent {
 					value={values.password}
 					onChange={(e) => {
 						handleChange(e)
-						const dispatch = error ? this.props.dispatch(loginErrorClear()) : null
+						return error ? this.props.dispatch(loginErrorClear()) : null
 					}}
 					placeholder="Enter your password"
 					label="Password"

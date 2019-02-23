@@ -11,13 +11,15 @@ import autoMergeLevel2 from 'redux-persist/lib/stateReconciler/autoMergeLevel2'
  * import all reducer's
  */
 import { loginReducer } from './containers/account/login/flux'
+import { signupReducer } from './containers/account/signup/flux'
 
 /**
  * [Root Reducer]
  * @type {Reducer}
  */
 const rootReducer = combineReducers({
-	login: loginReducer
+	login: loginReducer,
+	signup: signupReducer
 })
 
 /**

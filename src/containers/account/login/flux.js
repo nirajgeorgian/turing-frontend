@@ -58,9 +58,13 @@ export const loginAction = (data) => {
 export const logoutAction = () => {
 	return (dispatch, state, { localforage }) => {
 		if (state().login.loggedIn) {
-			return localforage.removeItem('auth_login_token').then(() => {
-				return dispatch(logout())
-			})
+			try {
+				return localforage.removeItem('auth_login_token').then(() => {
+					return dispatch(logout())
+				})
+			} catch (e) {
+				return dispatch(logoutFail(e.message))
+			}
 		}
 	}
 }
@@ -85,6 +89,10 @@ export const loginReducer = handleActions(
 			status: false,
 			loggedIn: false,
 			token: null,
+			error: action.payload.data.message
+		}),
+		LOGOUT_FAIL: (state, action) => ({
+			...state,
 			error: action.payload.data.message
 		}),
 		LOGOUT: (state, action) => {
