@@ -3,13 +3,20 @@ import React, { PureComponent } from 'react'
 class AppFooter extends PureComponent {
 	render() {
 		return (
-			<footer className="page-footer font-small cyan darken-3">
-				<div className="footer-copyright text-center py-3">
-					© 2018 Copyright:
-					<a href="https://mdbootstrap.com/education/bootstrap/" title="Ecommerce">
-						{' '}
-						Ecommerce
-					</a>
+			<footer className="footer text-muted text-center mt-auto py-3">
+				<div className="container">
+					<p>© 2018 Copyright: Ecommerce</p>
+					<ul className="list-inline">
+						<li className="list-inline-item">
+							<a href="/privacy">Privacy</a>
+						</li>
+						<li className="list-inline-item">
+							<a href="/terms">Terms</a>
+						</li>
+						<li className="list-inline-item">
+							<a href="/supprt">Support</a>
+						</li>
+					</ul>
 				</div>
 			</footer>
 		)

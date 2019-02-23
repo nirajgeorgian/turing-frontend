@@ -13,7 +13,6 @@ const AltTextField = ({
 	error = '',
 	...props
 }) => {
-	const labelField = hasError ? 'error-label' : 'default-label'
 	return (
 		<FormGroup>
 			<Label for={name}>{label}</Label>
