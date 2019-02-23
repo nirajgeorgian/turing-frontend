@@ -8,10 +8,13 @@ import { Pagination, PaginationItem, PaginationLink } from 'reactstrap'
 
 import { homeAction, homeErrorClear } from './flux'
 
+import Item from './product'
+
 class Homepage extends Component {
 	state = {
 		products: [],
-		currentPage: 0
+		currentPage: 0,
+		times: [0, 0, 0, 0, 0]
 	}
 
 	async componentDidMount() {
@@ -22,38 +25,38 @@ class Homepage extends Component {
 	}
 
 	handleClick = (e, currentPage) => {
-		e.preventdefault()
+		// e.preventdefault()
 		this.setState({
 			currentPage
 		})
 	}
+
 	render() {
-		const { currentPage } = this.state
+		const { currentPage, times, products } = this.state
 		return (
-			<div>
-				<Pagination>
+			<div className="album py-5 bg-light">
+				<div className="container">
+					<div className="row">
+						{products.map((item, i) => (
+							<Item key={i} name={item.product.name} price={item.product.price} />
+						))}
+					</div>
+				</div>
+				{/* <Pagination>
 					<PaginationItem disabled={currentPage <= 0}>
 						<PaginationLink onClick={(e) => this.handleClick(e, currentPage - 1)} previous={true} href="#" />
 					</PaginationItem>
-					<PaginationItem>
-						<PaginationLink href="#">1</PaginationLink>
+					{times.map((item, i) => (
+						<PaginationItem active={i === currentPage} key={i}>
+							<PaginationLink onClick={(e) => this.handleClick(e, i)} href="#">
+								{i + 1}
+							</PaginationLink>
+						</PaginationItem>
+					))}
+					<PaginationItem disabled={currentPage >= this.pagesCount - 1}>
+						<PaginationLink onClick={(e) => this.handleClick(e, currentPage + 1)} next href="#" />
 					</PaginationItem>
-					<PaginationItem>
-						<PaginationLink href="#">2</PaginationLink>
-					</PaginationItem>
-					<PaginationItem>
-						<PaginationLink href="#">3</PaginationLink>
-					</PaginationItem>
-					<PaginationItem>
-						<PaginationLink href="#">4</PaginationLink>
-					</PaginationItem>
-					<PaginationItem>
-						<PaginationLink href="#">5</PaginationLink>
-					</PaginationItem>
-					<PaginationItem>
-						<PaginationLink next={true} href="#" />
-					</PaginationItem>
-				</Pagination>
+				</Pagination> */}
 			</div>
 		)
 	}
