@@ -1,6 +1,5 @@
 import React from 'react'
 import { FormGroup, Label, Input, FormFeedback } from 'reactstrap'
-import classnames from 'classnames'
 import PropTypes from 'prop-types'
 
 const AltTextField = ({
@@ -14,7 +13,6 @@ const AltTextField = ({
 	error = '',
 	...props
 }) => {
-	const labelField = hasError ? 'error-label' : 'default-label'
 	return (
 		<FormGroup>
 			<Label for={name}>{label}</Label>

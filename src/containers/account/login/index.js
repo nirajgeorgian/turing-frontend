@@ -40,16 +40,13 @@ class LoginForm extends PureComponent {
 					hasError={errors.password && touched.password ? true : false}
 					error={errors.password && touched.password && errors.password}
 				/>
-				<AltButton type="submit" disabled={status || error ? true : false}>
+				<AltButton outline block type="submit" disabled={status || error ? true : false}>
 					Login
 				</AltButton>
-				<div className="alt-form-div">
-					<div className="alt-form-p">
-						<Link to="/forgot/email">Forgot Password</Link>
-					</div>
+				<div className="alt-form-extra text-center">
 					<div className="alt-form-p">
 						<p>
-							New to Alterhop? <Link to="/register">Join Now</Link>
+							New to Ecommerce? <Link to="/register">Join Now</Link>
 						</p>
 					</div>
 				</div>

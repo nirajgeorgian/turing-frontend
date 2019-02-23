@@ -10,10 +10,12 @@ import AppFooter from './containers/footer'
 class App extends Component {
 	render() {
 		return (
-			<div>
+			<div className="d-flex flex-column h-100">
 				<AppNavbar isAuthenticated={true} />
-				<main>
-					<AppRouter />
+				<main role="main" className="flex-shrink-0">
+					<div className="container">
+						<AppRouter />
+					</div>
 				</main>
 				<AppFooter />
 			</div>

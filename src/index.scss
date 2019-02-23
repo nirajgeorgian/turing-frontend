@@ -1,4 +1,13 @@
 @import '~normalize.css/normalize.css';
 @import '~bootstrap/dist/css/bootstrap.min.css';
 
+main {
+	.container {
+		padding-top: 60px;
+	}
+}
+
+@import './styles/form';
+
 @import './styles/footer';
+@import './styles/navbar';

@@ -1,7 +1,8 @@
 import React from 'react'
+import { Spinner } from 'reactstrap'
 import PropTypes from 'prop-types'
 
-const Loading = ({error, retry, pastDelay }) => {
+const Loading = ({ error, retry, pastDelay }) => {
 	if (error) {
 		return (
 			<div className="alt-loader-page">
@@ -13,7 +14,7 @@ const Loading = ({error, retry, pastDelay }) => {
 	} else if (pastDelay) {
 		return (
 			<div className="alt-loader-page">
-				<p>Loading ...</p>
+				<Spinner size="lg" type="grow" color="dark" />
 			</div>
 		)
 	} else {
