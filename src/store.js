@@ -10,6 +10,7 @@ import autoMergeLevel2 from 'redux-persist/lib/stateReconciler/autoMergeLevel2'
 /**
  * import all reducer's
  */
+import { loginReducer } from './containers/account/login/flux'
 
 import { homeReducer } from './containers/homepage/flux'
 
@@ -18,7 +19,8 @@ import { homeReducer } from './containers/homepage/flux'
  * @type {Reducer}
  */
 const rootReducer = combineReducers({
-	home: homeReducer
+	home: homeReducer,
+	login: loginReducer
 })
 
 /**
@@ -28,7 +30,7 @@ const rootReducer = combineReducers({
 const persistConfig = {
 	key: 'dododuck@123',
 	storage: localforage,
-	blacklist: [],
+	blacklist: ['home'],
 	stateReconciler: autoMergeLevel2
 }
 const persistedReducer = persistReducer(persistConfig, rootReducer)

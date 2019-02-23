@@ -4,21 +4,19 @@ import { withRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
 
 import AppRouter from './routes'
+import AppNavbar from './containers/navbar'
+import AppFooter from './containers/footer'
 
 class App extends Component {
 	render() {
 		return (
-			<>
-				<header>
-					<p>header</p>
-				</header>
+			<div>
+				<AppNavbar isAuthenticated={true} />
 				<main>
 					<AppRouter />
 				</main>
-				<footer>
-					<p>footer</p>
-				</footer>
-			</>
+				<AppFooter />
+			</div>
 		)
 	}
 }
@@ -33,7 +31,7 @@ const mapDispatchToAction = (dispatch) => {
 }
 export default withRouter(
 	connect(
-	mapStateToProps,
-	mapDispatchToAction
+		mapStateToProps,
+		mapDispatchToAction
 	)(App)
 )
