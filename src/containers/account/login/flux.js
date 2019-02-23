@@ -31,27 +31,27 @@ export const loginAction = (data) => {
 		if (!state().login.status) {
 			dispatch(login())
 			return axios
-				.post(`${api_url}/auth/login`, data)
+				.post('http://localhost:8080/api/v1/auth/login', data)
 				.then((res) => {
 					const { status } = res
-					if (status === 200) {
+					if (status === 201) {
 						return localforage
-							.setItem('auth_login_token', res.data.token)
+							.setItem('auth_login_token', res.data.customer.token)
 							.then(() => {
 								return dispatch(loginSuccess(res))
 							})
 							.catch((err) => {
-								return dispatch(loginFail(res.data.data.response))
+								return dispatch(loginFail(res))
 							})
 					} else {
-						return dispatch(loginFail(res.data.data.response))
+						return dispatch(loginFail(res))
 					}
 				})
 				.catch((err) => {
 					return dispatch(loginFail(err.response))
 				})
 		} else {
-			return false
+			return dispatch(loginFail({ data: { message: 'Login Error. Please Refresh and try again' } }))
 		}
 	}
 }

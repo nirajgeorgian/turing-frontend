@@ -4,6 +4,7 @@ import { withRouter } from 'react-router-dom'
 import { withFormik } from 'formik'
 import { Link } from 'react-router-dom'
 import * as Yup from 'yup'
+import { Alert } from 'reactstrap'
 
 import TextField from '../../../components/UIs/input_elements/text_field'
 import AltButton from '../../../components/UIs/button'
@@ -14,6 +15,11 @@ class LoginForm extends PureComponent {
 		const { values, handleChange, handleSubmit, errors, touched, error, token, status } = this.props
 		return (
 			<form className="alt-form" onSubmit={handleSubmit}>
+				{error && token === null ? (
+					<Alert onClick={() => this.props.dispatch(loginErrorClear())} color="danger">
+						{error}
+					</Alert>
+				) : null}
 				<TextField
 					type="email"
 					name="email"
@@ -50,7 +56,6 @@ class LoginForm extends PureComponent {
 						</p>
 					</div>
 				</div>
-				{error && token === null ? <div>error</div> : null}
 			</form>
 		)
 	}
