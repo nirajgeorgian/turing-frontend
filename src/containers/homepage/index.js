@@ -13,50 +13,68 @@ import Item from './product'
 class Homepage extends Component {
 	state = {
 		products: [],
-		currentPage: 0,
-		times: [0, 0, 0, 0, 0]
+		currentPage: 1,
+		totalPages: 1,
+		times: []
 	}
 
 	async componentDidMount() {
 		let data = await this.props.fetchProducts()
+		let totalProducts = data.payload.length
+		let totalPages = totalProducts / 12
 		this.setState({
-			products: data.payload
+			products: data.payload,
+			totalPages,
+			times: Array(totalPages).fill(0)
 		})
 	}
 
-	handleClick = (e, currentPage) => {
-		// e.preventdefault()
+	handleClick = (currentPage) => {
 		this.setState({
 			currentPage
 		})
 	}
 
 	render() {
-		const { currentPage, times, products } = this.state
+		const { currentPage, products, totalPages, times } = this.state
 		return (
-			<div className="album py-5 bg-light">
-				<div className="container">
-					<div className="row">
-						{products.map((item, i) => (
-							<Item key={i} name={item.product.name} price={item.product.price} />
-						))}
+			<div>
+				<div className="album py-5 bg-light">
+					<div className="container">
+						<div className="row">
+							{products.map((item, i) => (
+								<Item
+									key={i}
+									name={item.product.name}
+									price={item.product.price}
+									image={item.product.image}
+									image_2={item.product.image_2}
+								/>
+							))}
+						</div>
 					</div>
+					{totalPages > 1 ? (
+						<Pagination>
+							<PaginationItem disabled={currentPage <= 1}>
+								<PaginationLink
+									onClick={(e) => this.handleClick(currentPage - 1)}
+									previous={true}
+									href={currentPage - 1}
+								/>
+							</PaginationItem>
+							{times.map((item, i) => (
+								<PaginationItem active={i === currentPage} key={i}>
+									<PaginationLink onClick={(e) => this.handleClick(i)} href={`${i + 1}`}>
+										{i + 1}
+									</PaginationLink>
+								</PaginationItem>
+							))}
+							<PaginationItem disabled={totalPages === currentPage}>
+								<PaginationLink onClick={(e) => this.handleClick(currentPage + 1)} next={true} href={currentPage + 1} />
+							</PaginationItem>
+						</Pagination>
+					) : null}
 				</div>
-				{/* <Pagination>
-					<PaginationItem disabled={currentPage <= 0}>
-						<PaginationLink onClick={(e) => this.handleClick(e, currentPage - 1)} previous={true} href="#" />
-					</PaginationItem>
-					{times.map((item, i) => (
-						<PaginationItem active={i === currentPage} key={i}>
-							<PaginationLink onClick={(e) => this.handleClick(e, i)} href="#">
-								{i + 1}
-							</PaginationLink>
-						</PaginationItem>
-					))}
-					<PaginationItem disabled={currentPage >= this.pagesCount - 1}>
-						<PaginationLink onClick={(e) => this.handleClick(e, currentPage + 1)} next href="#" />
-					</PaginationItem>
-				</Pagination> */}
 			</div>
 		)
 	}
