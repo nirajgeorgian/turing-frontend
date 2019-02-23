@@ -11,11 +11,14 @@ import autoMergeLevel2 from 'redux-persist/lib/stateReconciler/autoMergeLevel2'
  * import all reducer's
  */
 
+import { homeReducer } from './containers/homepage/flux'
+
 /**
  * [Root Reducer]
  * @type {Reducer}
  */
 const rootReducer = combineReducers({
+	home: homeReducer
 })
 
 /**
