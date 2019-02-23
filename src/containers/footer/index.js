@@ -1,6 +1,6 @@
-import React, { Component } from 'react'
+import React, { PureComponent } from 'react'
 
-class AppFooter extends Component {
+class AppFooter extends PureComponent {
 	render() {
 		return (
 			<footer className="page-footer font-small cyan darken-3">

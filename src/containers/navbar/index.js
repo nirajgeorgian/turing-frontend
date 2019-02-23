@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, { PureComponent } from 'react'
 import {
 	Collapse,
 	Navbar,
@@ -13,7 +13,7 @@ import {
 	DropdownItem
 } from 'reactstrap'
 
-class AppNavbar extends Component {
+class AppNavbar extends PureComponent {
 	state = {
 		isOpen: false
 	}

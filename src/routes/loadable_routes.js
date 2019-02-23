@@ -7,3 +7,8 @@ export const LoadableHome = Loadable({
 	delay: 200
 })
 
+export const LoadableLogin = Loadable({
+	loader: () => import('../containers/account/login'),
+	loading: Loading,
+	delay: 200
+})
