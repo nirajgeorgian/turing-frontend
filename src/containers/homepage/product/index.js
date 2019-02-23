@@ -1,5 +1,4 @@
 import React from 'react'
-import logo from '../../../logo.svg'
 import { UncontrolledCarousel } from 'reactstrap'
 import PropTypes from 'prop-types'
 
@@ -20,8 +19,9 @@ const Item = ({ name, price, image, image_2, ...props }) => {
 	return (
 		<div className="col-md-4">
 			<div className="card mb-4 shadow-sm">
-				<UncontrolledCarousel items={items} autoPlay={false} indicators={false} />
-				{/* <img className="card-image-top" src={image_1} alt={logo} /> */}
+				<div className="card-image-top">
+					<UncontrolledCarousel items={items} autoPlay={false} indicators={false} interval={false} />
+				</div>
 				<div className="card-body">
 					<p className="card-text">{name}</p>
 					<div className="d-flex justify-content-between align-items-center">
