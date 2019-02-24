@@ -53,14 +53,12 @@ const API_URL = `${api_url}/${api_version}/`
 const simpleAxios = axios.create({
 	baseURL: API_URL,
 	timeout: 1000,
-	method: 'get',
 	headers: { 'Content-Type': 'application/json' }
 })
 const authAxios = (token) =>
 	axios.create({
 		baseURL: API_URL,
 		timeout: 1000,
-		method: 'get',
 		headers: {
 			'Content-Type': 'application/json',
 			Authorization: token

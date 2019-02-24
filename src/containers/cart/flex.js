@@ -1,7 +1,6 @@
 import { createActions, handleActions } from 'redux-actions'
-import { config } from '../../config'
+import localforage from 'localforage'
 
-const { api_url, api_version } = process.env.NODE_ENV === 'production' ? config['prod'] : config['dev']
 const cartState = {
 	cart: [],
 	profile: {},
@@ -31,11 +30,16 @@ export const { cart, cartItemUpdate, cartItemDelete, cartItemFetch, cartError, c
 	CART_ERROR_CLEAR
 )
 export const getCartAction = () => {
-	return (dispatch, state, { axios, localforage, simpleAxios }) => {
+	return async (dispatch, state, { axios, localforage, authAxios }) => {
 		if (state().login.loggedIn) {
 			dispatch(cart())
-			const data = simpleAxios('cart')
-			return data
+			const token = await localforage.getItem('auth_login_token')
+			const { status, data } = await authAxios(token).get('cart')
+			if (status === 200) {
+				dispatch(cartItemFetch({ data }))
+			} else {
+				dispatch(cartError({ data }))
+			}
 		} else {
 			return dispatch(cartError({ data: { message: 'Please login to view your cart' } }))
 		}
@@ -75,4 +79,3 @@ export const cartReducer = handleActions(
 	},
 	cartState
 )
-console.log('dodo')
