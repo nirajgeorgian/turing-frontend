@@ -34,12 +34,19 @@ export const getCartAction = () => {
 		if (state().login.loggedIn) {
 			dispatch(cart())
 			const token = await localforage.getItem('auth_login_token')
-			const { status, data } = await authAxios(token).get('cart')
-			if (status === 200) {
-				dispatch(cartItemFetch({ data }))
-			} else {
-				dispatch(cartError({ data }))
-			}
+			return authAxios(token)
+				.get('cart')
+				.then((res) => {
+					const { status, data } = res
+					if (status === 200) {
+						return dispatch(cartItemFetch({ data }))
+					} else {
+						return dispatch(cartError({ data }))
+					}
+				})
+				.catch((err) => {
+					return dispatch(cartError(err.response))
+				})
 		} else {
 			return dispatch(cartError({ data: { message: 'Please login to view your cart' } }))
 		}
