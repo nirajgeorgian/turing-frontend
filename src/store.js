@@ -16,6 +16,7 @@ import { signupReducer } from './containers/account/signup/flux'
 
 import { homeReducer } from './containers/homepage/products/flux'
 import { cartReducer } from './containers/cart/flex'
+import { productReducer } from './containers/productdetail/flux'
 // import { homeReducer } from './containers/homepage/flux'
 
 /**
@@ -32,7 +33,8 @@ const rootReducer = combineReducers({
 	home: homeReducer,
 	login: loginReducer,
 	signup: signupReducer,
-	cart: cartReducer
+	cart: cartReducer,
+	product: productReducer
 })
 
 /**
@@ -42,7 +44,7 @@ const rootReducer = combineReducers({
 const persistConfig = {
 	key: 'dododuck@123',
 	storage: localforage,
-	blacklist: ['home'],
+	blacklist: ['home', 'product'],
 	stateReconciler: autoMergeLevel2
 }
 const persistedReducer = persistReducer(persistConfig, rootReducer)

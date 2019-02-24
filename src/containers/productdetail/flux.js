@@ -1,7 +1,6 @@
 import { createActions, handleActions } from 'redux-actions'
 
-let productPath = ''
-let prodcuctState = {
+let productState = {
 	productId: null,
 	error: null,
 	status: false,
@@ -22,11 +21,11 @@ export const productAction = (productId) => {
 	return async (dispatch, state, { simpleAxios }) => {
 		if (!state().product.status) {
 			dispatch(fetchProduct())
-			const { status, data } = await simpleAxios.get()
+			const { status, data } = await simpleAxios.get(`products/${productId}`)
 			if (status === 200) {
-				dispatch(fetchProductSuccess(data.data))
+				dispatch(fetchProductSuccess(data.product))
 			} else {
-				dispatch(fetchProductFail(data))
+				dispatch(fetchProductFail(data.message))
 			}
 		} else {
 			return false
@@ -34,25 +33,28 @@ export const productAction = (productId) => {
 	}
 }
 
-export const productReducer = handleActions({
-	FETCH_PRODUCT: (state, action) => ({
-		...state,
-		status: true
-	}),
-	FETCH_PRODUCT_SUCCESS: (state, action) => {
-		return {
+export const productReducer = handleActions(
+	{
+		FETCH_PRODUCT: (state, action) => ({
 			...state,
-			status: false,
-			productDetail: action.payload
+			status: true
+		}),
+		FETCH_PRODUCT_SUCCESS: (state, action) => {
+			return {
+				...state,
+				status: false,
+				productDetail: action.payload,
+				productId: action.payload.product_id
+			}
+		},
+		FETCH_PRODUCT_FAIL: (state, action) => {
+			return {
+				...state,
+				error: action.payload.data.message,
+				productDetail: {},
+				status: false
+			}
 		}
 	},
-	FETCH_PRODUCT_FAIL: (state, action) => {
-		return {
-			...state,
-			error: action.payload.data.message,
-			productDetail: {},
-			status: false
-		}
-	},
-	prodcuctState
-})
+	productState
+)
