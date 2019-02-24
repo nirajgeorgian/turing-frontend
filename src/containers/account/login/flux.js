@@ -1,7 +1,4 @@
-import { createActions, createAction, handleActions } from 'redux-actions'
-import { config } from '../../../config'
-
-const { api_url, api_version } = process.env.NODE_ENV === 'production' ? config['prod'] : config['dev']
+import { createActions, handleActions } from 'redux-actions'
 const loginState = {
 	token: null,
 	error: null,
@@ -23,33 +20,25 @@ export const LOGIN_ERROR_CLEAR = 'LOGIN_ERROR_CLEAR'
 /**
  * All Action creators
  */
-const { login, loginSuccess, loginFail, logoutFail } = createActions(LOGIN, LOGIN_SUCCESS, LOGIN_FAIL, LOGOUT_FAIL)
-export const loginErrorClear = createAction(LOGIN_ERROR_CLEAR)
-const logout = createAction(LOGOUT)
-export const loginAction = (data) => {
-	return (dispatch, state, { axios, localforage }) => {
+export const { login, loginSuccess, loginFail, logoutFail, loginErrorClear, logout } = createActions(
+	LOGIN,
+	LOGIN_SUCCESS,
+	LOGIN_FAIL,
+	LOGOUT_FAIL,
+	LOGIN_ERROR_CLEAR,
+	LOGOUT
+)
+export const loginAction = (values) => {
+	return async (dispatch, state, { simpleAxios, localforage }) => {
 		if (!state().login.status) {
 			dispatch(login())
-			return axios
-				.post(`${api_url}/${api_version}/auth/login`, data)
-				.then((res) => {
-					const { status } = res
-					if (status === 200) {
-						return localforage
-							.setItem('auth_login_token', res.data.customer.token)
-							.then(() => {
-								return dispatch(loginSuccess(res))
-							})
-							.catch((err) => {
-								return dispatch(loginFail({ data: { message: err.message } }))
-							})
-					} else {
-						return dispatch(loginFail(res))
-					}
-				})
-				.catch((err) => {
-					return dispatch(loginFail(err.response))
-				})
+			const { status, data } = await simpleAxios.post('auth/login', values)
+			if (status === 200) {
+				await localforage.setItem('auth_login_token', data.customer.token)
+				dispatch(loginSuccess({ data }))
+			} else {
+				dispatch(loginFail({ data }))
+			}
 		} else {
 			return dispatch(loginFail({ data: { message: 'Login Error. Please Refresh and try again' } }))
 		}
@@ -57,10 +46,8 @@ export const loginAction = (data) => {
 }
 export const logoutAction = () => {
 	return (dispatch, state, { localforage }) => {
-		console.log('dodo')
 		if (state().login.loggedIn) {
 			try {
-				console.log('try')
 				localforage.removeItem('auth_login_token').then(() => {
 					return dispatch(logout())
 				})

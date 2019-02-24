@@ -18,11 +18,12 @@ class Homepage extends Component {
 	}
 
 	async componentDidMount() {
-		let data = await this.props.fetchProducts(1)
-		let totalProducts = data.payload.count
+		await this.props.fetchProducts(1)
+		let { products } = this.props
+		let totalProducts = products.count
 		let totalPages = parseInt(totalProducts / 12)
 		await this.setState({
-			products: data.payload.rows,
+			products: products.rows,
 			totalPages,
 			times: Array(totalPages).fill(0),
 			currentPage: this.props.match.params.id ? Number(this.props.match.params.id) : 1
@@ -45,7 +46,7 @@ class Homepage extends Component {
 				<div className="album py-5 bg-light">
 					<div className="container">
 						<div className="row">
-							{this.props.match.path === '/:id' ? <Products page={currentPage} products={products} /> : null}
+							<Products page={currentPage} products={products} />
 						</div>
 					</div>
 					{totalPages > 1 ? (
@@ -80,7 +81,11 @@ const mapDispatchToProps = (dispatch) =>
 		dispatch
 	)
 const Home = connect(
-	null,
+	(state) => {
+		return {
+			products: state.home.products
+		}
+	},
 	mapDispatchToProps
 )(Homepage)
 

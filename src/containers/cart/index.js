@@ -1,13 +1,19 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { withRouter } from 'react-router-dom'
+import { bindActionCreators } from 'redux'
 import { withFormik } from 'formik'
+import { PropTypes } from 'prop-types'
 
 import AltTextField from '../../components/UIs/input_elements/text_field'
 import AltSelectField from '../../components/UIs/input_elements/select'
 import AltButton from '../../components/UIs/button'
+import { getCartAction } from './flex'
 
 class CartForm extends Component {
+	async componentDidMount() {
+		await this.props.fetchCart()
+	}
 	render() {
 		const { values, handleSubmit, handleChange } = this.props
 		return (
@@ -134,9 +140,12 @@ const FormikForm = withFormik({
 	displayName: 'CartForm'
 })(CartForm)
 
+const mapDispatchToProps = (dispatch) => {
+	return bindActionCreators({ fetchCart: getCartAction }, dispatch)
+}
 const Cart = connect(
 	(state) => state.login,
-	null
+	mapDispatchToProps
 )(FormikForm)
 
 export default withRouter(Cart)

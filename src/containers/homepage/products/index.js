@@ -8,18 +8,20 @@ import Item from './product'
 
 class Products extends React.Component {
 	state = {
-		products: []
+		products: [],
+		page: 1
 	}
 
 	async componentWillReceiveProps(nextProps) {
-		if (nextProps.page !== 1) {
-			let data = await this.props.fetchProducts(nextProps.page)
-			this.setState({
-				products: data.payload.rows
+		if (nextProps.page !== this.state.page) {
+			await this.props.fetchProducts(nextProps.page)
+			await this.setState({
+				page: nextProps.page
 			})
 		} else {
 			this.setState({
-				products: nextProps.products
+				products: nextProps.products.rows,
+				page: 1
 			})
 		}
 	}
@@ -56,7 +58,11 @@ const mapDispatchToProps = (dispatch) =>
 
 export default withRouter(
 	connect(
-		null,
+		(state) => {
+			return {
+				products: state.home.products
+			}
+		},
 		mapDispatchToProps
 	)(Products)
 )

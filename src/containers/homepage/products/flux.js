@@ -1,9 +1,6 @@
 import { createActions, createAction, handleActions } from 'redux-actions'
-import { config } from '../../../config'
 
-const { api_url, api_version } = process.env.NODE_ENV === 'production' ? config['prod'] : config['dev']
 let productsPath = 'products'
-
 let homeState = {
 	products: [],
 	error: null,
@@ -24,22 +21,15 @@ const { fetchProducts, fetchProductsSuccess, fetchProductsFail } = createActions
 
 export const homeErrorClear = createAction(FETCH_ERROR_CLEAR)
 export const homeAction = (page_no) => {
-	return (dispatch, state, { axios }) => {
+	return async (dispatch, state, { simpleAxios }) => {
 		if (!state().home.status) {
 			dispatch(fetchProducts())
-			return axios
-				.get(`${api_url}/${api_version}/${productsPath}?page=${page_no}`)
-				.then((res) => {
-					let { status } = res
-					if (status === 200) {
-						return dispatch(fetchProductsSuccess(res.data.data.products))
-					} else {
-						return dispatch(fetchProductsFail(res.data.data.response))
-					}
-				})
-				.catch((err) => {
-					return dispatch(fetchProductsFail(err.response))
-				})
+			const { status, data } = await simpleAxios.get(`${productsPath}?page=${page_no}`)
+			if (status === 200) {
+				dispatch(fetchProductsSuccess(data.data.products))
+			} else {
+				dispatch(fetchProductsFail(data))
+			}
 		} else {
 			return false
 		}
