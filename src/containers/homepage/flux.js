@@ -1,9 +1,6 @@
 import { createActions, createAction, handleActions } from 'redux-actions'
-import { config } from '../../config'
 
-const { api_url, api_version } = process.env.NODE_ENV === 'production' ? config['prod'] : config['dev']
 let productsPath = 'products'
-
 let homeState = {
 	products: [],
 	error: null,
@@ -24,11 +21,11 @@ const { fetchProducts, fetchProductsSuccess, fetchProductsFail } = createActions
 
 export const homeErrorClear = createAction(FETCH_ERROR_CLEAR)
 export const homeAction = () => {
-	return (dispatch, state, { axios }) => {
+	return (dispatch, state, { simpleAxios }) => {
 		if (!state().home.status) {
 			dispatch(fetchProducts())
-			return axios
-				.get(`${api_url}/${api_version}/${productsPath}`)
+			return simpleAxios
+				.get(`${productsPath}`)
 				.then((res) => {
 					let { status } = res
 					if (status === 200) {

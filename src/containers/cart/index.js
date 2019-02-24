@@ -12,7 +12,7 @@ import { getCartAction } from './flex'
 
 class CartForm extends Component {
 	async componentDidMount() {
-		await this.props.getCartAction()
+		await this.props.fetchCart()
 	}
 	render() {
 		const { values, handleSubmit, handleChange } = this.props

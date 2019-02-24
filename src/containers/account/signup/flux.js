@@ -1,7 +1,4 @@
 import { createActions, createAction, handleActions } from 'redux-actions'
-import { config } from '../../../config'
-
-const { api_url, api_version } = process.env.NODE_ENV === 'production' ? config['prod'] : config['dev']
 const signupState = {
 	signedUp: false,
 	user: null,
@@ -23,11 +20,11 @@ export const SIGNUP_ERROR_CLEAR = 'SIGNUP_ERROR_CLEAR'
 const { signup, signupSuccess, signupFail } = createActions(SIGNUP, SIGNUP_SUCCESS, SIGNUP_FAIL)
 export const signupErrorClear = createAction(SIGNUP_ERROR_CLEAR)
 export const signupAction = (data) => {
-	return (dispatch, state, { axios }) => {
+	return (dispatch, state, { simpleAxios }) => {
 		if (!state().signup.state) {
 			dispatch(signup())
-			return axios
-				.post(`${api_url}/${api_version}/auth/signup`, data)
+			return simpleAxios
+				.post('auth/signup', data)
 				.then((res) => {
 					if (res.status === 201) {
 						return dispatch(signupSuccess(res))
