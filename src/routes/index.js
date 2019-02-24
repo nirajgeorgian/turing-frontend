@@ -9,6 +9,7 @@ const AppRouter = () => {
 	return (
 		<Switch>
 			<Route exact path="/" component={LoadableHome} />
+			<Route path="/:id" component={LoadableHome} />
 			<LoggedInRoute exact path="/login" component={LoadableLogin} />
 			<LoggedInRoute exact path="/register" component={LoadableSignup} />
 			<PrivateRoute exact path="/cart" component={LoadableCart} />

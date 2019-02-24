@@ -2,7 +2,7 @@ import React from 'react'
 import { UncontrolledCarousel } from 'reactstrap'
 import PropTypes from 'prop-types'
 
-import { config } from '../../../config'
+import { config } from '../../../../config'
 const { images_url } = process.env.NODE_ENV === 'production' ? config['prod'] : config['dev']
 
 const Item = ({ name, price, image, image_2, ...props }) => {

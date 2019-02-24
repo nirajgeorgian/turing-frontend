@@ -13,7 +13,7 @@ import autoMergeLevel2 from 'redux-persist/lib/stateReconciler/autoMergeLevel2'
 import { loginReducer } from './containers/account/login/flux'
 import { signupReducer } from './containers/account/signup/flux'
 
-import { homeReducer } from './containers/homepage/flux'
+import { homeReducer } from './containers/homepage/products/flux'
 
 /**
  * [Root Reducer]

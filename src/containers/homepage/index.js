@@ -6,30 +6,30 @@ import { PropTypes } from 'prop-types'
 
 import { Pagination, PaginationItem, PaginationLink } from 'reactstrap'
 
-import { homeAction, homeErrorClear } from './flux'
-
-import Item from './product'
+import { homeAction, homeErrorClear } from './products/flux'
+import Products from './products/index'
 
 class Homepage extends Component {
 	state = {
-		products: [],
-		currentPage: 0,
+		currentPage: 1,
 		totalPages: 1,
-		times: []
+		times: [],
+		products: []
 	}
 
 	async componentDidMount() {
-		let data = await this.props.fetchProducts()
+		let data = await this.props.fetchProducts(1)
 		let totalProducts = data.payload.count
 		let totalPages = parseInt(totalProducts / 12)
-		this.setState({
+		await this.setState({
 			products: data.payload.rows,
 			totalPages,
-			times: Array(totalPages).fill(0)
+			times: Array(totalPages).fill(0),
+			currentPage: this.props.match.params.id ? Number(this.props.match.params.id) : 1
 		})
 	}
 
-	handleClick = (currentPage) => {
+	handleClick = async (currentPage) => {
 		this.setState(
 			{
 				currentPage
@@ -45,30 +45,22 @@ class Homepage extends Component {
 				<div className="album py-5 bg-light">
 					<div className="container">
 						<div className="row">
-							{products.map((item, i) => (
-								<Item
-									key={i}
-									name={item.product.name}
-									price={item.product.price}
-									image={item.product.image}
-									image_2={item.product.image_2}
-								/>
-							))}
+							{this.props.match.path === '/:id' ? <Products page={currentPage} products={products} /> : null}
 						</div>
 					</div>
 					{totalPages > 1 ? (
 						<div>
 							<Pagination>
-								<PaginationItem disabled={currentPage <= 0}>
-									<PaginationLink onClick={(e) => this.handleClick(currentPage - 1)} previous={true} />
+								<PaginationItem disabled={currentPage <= 1}>
+									<PaginationLink onClick={(_) => this.handleClick(currentPage - 1)} previous={true} />
 								</PaginationItem>
-								{times.map((item, i) => (
+								{times.map((_, i) => (
 									<PaginationItem active={i + 1 === currentPage} key={i}>
-										<PaginationLink onClick={(e) => this.handleClick(i + 1)}>{i + 1}</PaginationLink>
+										<PaginationLink onClick={(_) => this.handleClick(i + 1)}>{i + 1}</PaginationLink>
 									</PaginationItem>
 								))}
 								<PaginationItem disabled={totalPages === currentPage}>
-									<PaginationLink onClick={(e) => this.handleClick(currentPage + 1)} next={true} />
+									<PaginationLink onClick={(_) => this.handleClick(currentPage + 1)} next={true} />
 								</PaginationItem>
 							</Pagination>
 						</div>
@@ -88,7 +80,7 @@ const mapDispatchToProps = (dispatch) =>
 		dispatch
 	)
 const Home = connect(
-	(state) => state,
+	null,
 	mapDispatchToProps
 )(Homepage)
 
