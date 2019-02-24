@@ -26,6 +26,7 @@ class SignupForm extends PureComponent {
 					label="Name"
 					hasError={errors.name && touched.name ? true : false}
 					error={errors.name && touched.name && errors.name}
+					valid={!errors.name && touched.name}
 				/>
 				<TextField
 					type="email"
@@ -39,6 +40,7 @@ class SignupForm extends PureComponent {
 					label="Email"
 					hasError={errors.email && touched.email ? true : false}
 					error={errors.email && touched.email && errors.email}
+					valid={!errors.email && touched.email}
 				/>
 				<TextField
 					type="password"
@@ -52,6 +54,7 @@ class SignupForm extends PureComponent {
 					label="Password"
 					hasError={errors.password && touched.password ? true : false}
 					error={errors.password && touched.password && errors.password}
+					valid={!errors.password && touched.password}
 				/>
 				{error && (signedUp === false && user === null) ? (
 					<Alert onClick={() => this.props.dispatch(signupErrorClear())} color="danger">
@@ -91,7 +94,7 @@ const FormikSignup = withFormik({
 			data = await props.dispatch(signupAction(values))
 			const { payload } = data
 			if (payload.status === 201) {
-				const { user } = payload.data
+				// const { user } = payload.data
 				props.history.push('/login')
 			}
 		} catch (e) {

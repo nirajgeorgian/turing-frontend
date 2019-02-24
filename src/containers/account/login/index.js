@@ -6,7 +6,7 @@ import { Link } from 'react-router-dom'
 import * as Yup from 'yup'
 import { Alert } from 'reactstrap'
 
-import TextField from '../../../components/UIs/input_elements/text_field'
+import AltTextField from '../../../components/UIs/input_elements/text_field'
 import AltButton from '../../../components/UIs/button'
 import { loginAction, loginErrorClear } from './flux'
 
@@ -15,7 +15,7 @@ class LoginForm extends PureComponent {
 		const { values, handleChange, handleSubmit, errors, touched, error, token, status } = this.props
 		return (
 			<form className="alt-form" onSubmit={handleSubmit}>
-				<TextField
+				<AltTextField
 					type="email"
 					name="email"
 					value={values.email}
@@ -27,8 +27,9 @@ class LoginForm extends PureComponent {
 					label="Email"
 					hasError={errors.email && touched.email ? true : false}
 					error={errors.email && touched.email && errors.email}
+					valid={touched.email && !errors.email}
 				/>
-				<TextField
+				<AltTextField
 					type="password"
 					name="password"
 					value={values.password}
@@ -40,6 +41,7 @@ class LoginForm extends PureComponent {
 					label="Password"
 					hasError={errors.password && touched.password ? true : false}
 					error={errors.password && touched.password && errors.password}
+					valid={!errors.password && touched.password}
 				/>
 				{error && token === null ? (
 					<Alert onClick={() => this.props.dispatch(loginErrorClear())} color="danger">

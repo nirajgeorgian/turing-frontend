@@ -6,11 +6,11 @@ const AltTextField = ({
 	label,
 	name,
 	type,
-	value,
 	classes = 'default',
 	placeholder,
 	hasError = false,
 	error = '',
+	valid,
 	...props
 }) => {
 	return (
@@ -21,8 +21,8 @@ const AltTextField = ({
 				autoComplete="off"
 				type={type}
 				name={name}
-				value={value}
 				placeholder={placeholder}
+				valid={valid}
 				{...props}
 			/>
 			<FormFeedback>{error}</FormFeedback>
@@ -30,15 +30,12 @@ const AltTextField = ({
 	)
 }
 
-const { func, string, bool } = PropTypes
+const { string, bool } = PropTypes
 AltTextField.propTypes = {
 	label: string.isRequired,
 	type: string.isRequired,
 	name: string.isRequired,
-	value: string,
-	placeholder: string.isRequired,
-	showPassword: bool,
-	handleLockClick: func,
+	placeholder: string,
 	classes: string,
 	disabled: bool,
 	hasError: bool,
