@@ -12,9 +12,14 @@ export const LoadableLogin = Loadable({
 	loading: Loading,
 	delay: 200
 })
-
 export const LoadableSignup = Loadable({
 	loader: () => import('../containers/account/signup'),
+	loading: Loading,
+	delay: 200
+})
+
+export const LoadableCart = Loadable({
+	loader: () => import('../containers/cart'),
 	loading: Loading,
 	delay: 200
 })

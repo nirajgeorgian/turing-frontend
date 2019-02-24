@@ -1,6 +1,6 @@
 import React, { PureComponent } from 'react'
+import { Link } from 'react-router-dom'
 import {
-	Button,
 	Collapse,
 	Navbar,
 	NavbarToggler,
@@ -41,7 +41,9 @@ class AppNavbar extends PureComponent {
 		)
 		const unauthComp = (
 			<NavItem>
-				<NavLink href="https://github.com/reactstrap/reactstrap">Account</NavLink>
+				<Link to="/login" className="nav-link">
+					login
+				</Link>
 			</NavItem>
 		)
 		return (
