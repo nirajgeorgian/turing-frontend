@@ -1,5 +1,4 @@
 import { createActions, handleActions } from 'redux-actions'
-import localforage from 'localforage'
 
 const cartState = {
 	cart: [],
@@ -40,6 +39,77 @@ export const getCartAction = () => {
 					const { status, data } = res
 					if (status === 200) {
 						return dispatch(cartItemFetch({ data }))
+					} else {
+						return dispatch(cartError({ data }))
+					}
+				})
+				.catch((err) => {
+					return dispatch(cartError(err.response))
+				})
+		} else {
+			return dispatch(cartError({ data: { message: 'Please login to view your cart' } }))
+		}
+	}
+}
+export const removeCartAction = (values) => {
+	return async (dispatch, state, { axios, localforage, authAxios }) => {
+		if (state().login.loggedIn) {
+			dispatch(cart())
+			const token = await localforage.getItem('auth_login_token')
+			return authAxios(token)
+				.delete(`cart/${values.product_id}`, { data: values })
+				.then((res) => {
+					const { status, data } = res
+					if (status === 200) {
+						return dispatch(cartItemDelete({ data }))
+					} else {
+						return dispatch(cartError({ data }))
+					}
+				})
+				.catch((err) => {
+					return dispatch(cartError(err.response))
+				})
+		} else {
+			return dispatch(cartError({ data: { message: 'Please login to view your cart' } }))
+		}
+	}
+}
+export const incrementCartAction = (values) => {
+	values.quantity = values.quantity + 1
+	return async (dispatch, state, { axios, localforage, authAxios }) => {
+		if (state().login.loggedIn) {
+			dispatch(cart())
+			const token = await localforage.getItem('auth_login_token')
+			return authAxios(token)
+				.put(`cart/${values.product_id}`, values)
+				.then((res) => {
+					const { status, data } = res
+					if (status === 200) {
+						return dispatch(cartItemUpdate({ data }))
+					} else {
+						return dispatch(cartError({ data }))
+					}
+				})
+				.catch((err) => {
+					return dispatch(cartError(err.response))
+				})
+		} else {
+			return dispatch(cartError({ data: { message: 'Please login to view your cart' } }))
+		}
+	}
+}
+export const decrementCartAction = (values) => {
+	values.quantity = values.quantity - 1
+	return async (dispatch, state, { axios, localforage, authAxios }) => {
+		if (state().login.loggedIn) {
+			dispatch(cart())
+			const token = await localforage.getItem('auth_login_token')
+			return authAxios(token)
+				.put(`cart/${values.product_id}`, values)
+				.then((res) => {
+					const { status, data } = res
+					if (status === 200) {
+						return dispatch(cartItemUpdate({ data }))
 					} else {
 						return dispatch(cartError({ data }))
 					}
