@@ -11,35 +11,59 @@ import AltButton from '../../components/UIs/button'
 import { getCartAction } from './flex'
 
 class CartForm extends Component {
+	state = {
+		cart: [],
+		profile: {},
+		price: 0
+	}
 	async componentDidMount() {
 		await this.props.fetchCart()
+		this.setState({
+			cart: this.props.cart.cart
+		})
+		this.computePrice(this.state.cart)
+	}
+	computePrice = (cart) => {
+		const price = cart.reduce((acc, item) => {
+			return acc + Number(item.product.price) * item.quantity
+		}, 0)
+		this.setState({
+			price
+		})
 	}
 	render() {
 		const { values, handleSubmit, handleChange } = this.props
 		return (
 			<div className="row">
-				<div className="col-md-4 order-md-2 mb-4">
+				<div className="col-md-5 order-md-2 mb-4">
 					<div className="container">
 						<h4 className="d-flex justify-content-between align-items-center mb-3">
 							<span className="text-muted">Your cart</span>
-							<span className="badge badge-secondary badge-pill">3</span>
+							<span className="badge badge-secondary badge-pill">{this.state.cart.length}</span>
 						</h4>
 					</div>
 					<ul className="list-group mb-6">
-						<li className="list-group-item d-flex justify-content-between lh-condensed">
-							<div>
-								<h6 className="my-0">Product name</h6>
-								<small className="text-muted">Brief description</small>
-							</div>
-							<span className="text-muted">$12</span>
-						</li>
+						{this.state.cart.length &&
+							this.state.cart.map((item) => (
+								<li className="list-group-item d-flex justify-content-between lh-condensed" key={item.cart_item}>
+									<div>
+										<h6 className="my-0">{item.product.name}</h6>
+										<small className="text-muted">
+											{item.product.description.length > 15
+												? item.product.description.substring(0, 15) + ' ...'
+												: item.product.description}
+										</small>
+									</div>
+									<span className="text-muted">${item.product.price}</span>
+								</li>
+							))}
 						<li className="list-group-item d-flex justify-content-between">
 							<span>Total (USD)</span>
-							<strong>$20</strong>
+							<strong>${this.state.price}</strong>
 						</li>
 					</ul>
 				</div>
-				<div className="col-md-8 order-md-1">
+				<div className="col-md-7 order-md-1">
 					<h4 className="mb-3">Billing address</h4>
 					<form onSubmit={handleSubmit}>
 						<div className="mb-3">
@@ -143,8 +167,11 @@ const FormikForm = withFormik({
 const mapDispatchToProps = (dispatch) => {
 	return bindActionCreators({ fetchCart: getCartAction }, dispatch)
 }
+const mapStateToProps = (state) => ({
+	cart: state.cart
+})
 const Cart = connect(
-	(state) => state.login,
+	mapStateToProps,
 	mapDispatchToProps
 )(FormikForm)
 
