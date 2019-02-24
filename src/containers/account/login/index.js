@@ -81,7 +81,7 @@ const FormikLogin = withFormik({
 		try {
 			data = await props.dispatch(loginAction(values))
 			if (data.type === 'LOGIN_SUCCESS') {
-				return props.history.push('/welcome')
+				return props.history.push('/')
 			}
 		} catch (e) {
 			return setSubmitting(false)
