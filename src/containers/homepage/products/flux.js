@@ -20,23 +20,16 @@ const { fetchProducts, fetchProductsSuccess, fetchProductsFail } = createActions
 )
 
 export const homeErrorClear = createAction(FETCH_ERROR_CLEAR)
-export const homeAction = () => {
-	return (dispatch, state, { simpleAxios }) => {
+export const homeAction = (page_no) => {
+	return async (dispatch, state, { simpleAxios }) => {
 		if (!state().home.status) {
 			dispatch(fetchProducts())
-			return simpleAxios
-				.get(`${productsPath}`)
-				.then((res) => {
-					let { status } = res
-					if (status === 200) {
-						return dispatch(fetchProductsSuccess(res.data.data.products))
-					} else {
-						return dispatch(fetchProductsFail(res.data.data.response))
-					}
-				})
-				.catch((err) => {
-					return dispatch(fetchProductsFail(err.response))
-				})
+			const { status, data } = await simpleAxios.get(`${productsPath}?page=${page_no}`)
+			if (status === 200) {
+				dispatch(fetchProductsSuccess(data.data.products))
+			} else {
+				dispatch(fetchProductsFail(data))
+			}
 		} else {
 			return false
 		}

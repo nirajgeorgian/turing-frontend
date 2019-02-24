@@ -23,3 +23,9 @@ export const LoadableCart = Loadable({
 	loading: Loading,
 	delay: 200
 })
+
+export const LoadableProduct = Loadable({
+	loader: () => import('../containers/productdetail'),
+	loading: Loading,
+	delay: 200
+})

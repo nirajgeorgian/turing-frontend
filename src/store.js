@@ -13,8 +13,10 @@ import { config } from './config'
  */
 import { loginReducer } from './containers/account/login/flux'
 import { signupReducer } from './containers/account/signup/flux'
+
+import { homeReducer } from './containers/homepage/products/flux'
 import { cartReducer } from './containers/cart/flex'
-import { homeReducer } from './containers/homepage/flux'
+// import { homeReducer } from './containers/homepage/flux'
 
 /**
  * [API_URL, API_VERSION]
