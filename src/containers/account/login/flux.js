@@ -28,17 +28,30 @@ export const { login, loginSuccess, loginFail, logoutFail, loginErrorClear, logo
 	LOGIN_ERROR_CLEAR,
 	LOGOUT
 )
-export const loginAction = (values) => {
-	return async (dispatch, state, { simpleAxios, localforage }) => {
+export const loginAction = (data) => {
+	return (dispatch, state, { simpleAxios, localforage }) => {
 		if (!state().login.status) {
 			dispatch(login())
-			const { status, data } = await simpleAxios.post('auth/login', values)
-			if (status === 200) {
-				await localforage.setItem('auth_login_token', data.customer.token)
-				dispatch(loginSuccess({ data }))
-			} else {
-				dispatch(loginFail({ data }))
-			}
+			return simpleAxios
+				.post('auth/login', data)
+				.then((res) => {
+					const { status } = res
+					if (status === 200) {
+						return localforage
+							.setItem('auth_login_token', res.data.customer.token)
+							.then(() => {
+								return dispatch(loginSuccess(res))
+							})
+							.catch((err) => {
+								return dispatch(loginFail({ data: { message: err.message } }))
+							})
+					} else {
+						return dispatch(loginFail(res))
+					}
+				})
+				.catch((err) => {
+					return dispatch(loginFail(err.response))
+				})
 		} else {
 			return dispatch(loginFail({ data: { message: 'Login Error. Please Refresh and try again' } }))
 		}
