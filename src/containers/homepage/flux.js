@@ -32,7 +32,7 @@ export const homeAction = () => {
 				.then((res) => {
 					let { status } = res
 					if (status === 200) {
-						return dispatch(fetchProductsSuccess(res.data.products))
+						return dispatch(fetchProductsSuccess(res.data.data.products))
 					} else {
 						return dispatch(fetchProductsFail(res.data.data.response))
 					}

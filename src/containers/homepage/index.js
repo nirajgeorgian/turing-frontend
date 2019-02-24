@@ -13,26 +13,29 @@ import Item from './product'
 class Homepage extends Component {
 	state = {
 		products: [],
-		currentPage: 1,
+		currentPage: 0,
 		totalPages: 1,
 		times: []
 	}
 
 	async componentDidMount() {
 		let data = await this.props.fetchProducts()
-		let totalProducts = data.payload.length
-		let totalPages = totalProducts / 12
+		let totalProducts = data.payload.count
+		let totalPages = parseInt(totalProducts / 12)
 		this.setState({
-			products: data.payload,
+			products: data.payload.rows,
 			totalPages,
 			times: Array(totalPages).fill(0)
 		})
 	}
 
 	handleClick = (currentPage) => {
-		this.setState({
-			currentPage
-		})
+		this.setState(
+			{
+				currentPage
+			},
+			() => this.props.history.push(`/${currentPage}`)
+		)
 	}
 
 	render() {
@@ -54,25 +57,21 @@ class Homepage extends Component {
 						</div>
 					</div>
 					{totalPages > 1 ? (
-						<Pagination>
-							<PaginationItem disabled={currentPage <= 1}>
-								<PaginationLink
-									onClick={(e) => this.handleClick(currentPage - 1)}
-									previous={true}
-									href={currentPage - 1}
-								/>
-							</PaginationItem>
-							{times.map((item, i) => (
-								<PaginationItem active={i === currentPage} key={i}>
-									<PaginationLink onClick={(e) => this.handleClick(i)} href={`${i + 1}`}>
-										{i + 1}
-									</PaginationLink>
+						<div>
+							<Pagination>
+								<PaginationItem disabled={currentPage <= 0}>
+									<PaginationLink onClick={(e) => this.handleClick(currentPage - 1)} previous={true} />
 								</PaginationItem>
-							))}
-							<PaginationItem disabled={totalPages === currentPage}>
-								<PaginationLink onClick={(e) => this.handleClick(currentPage + 1)} next={true} href={currentPage + 1} />
-							</PaginationItem>
-						</Pagination>
+								{times.map((item, i) => (
+									<PaginationItem active={i + 1 === currentPage} key={i}>
+										<PaginationLink onClick={(e) => this.handleClick(i + 1)}>{i + 1}</PaginationLink>
+									</PaginationItem>
+								))}
+								<PaginationItem disabled={totalPages === currentPage}>
+									<PaginationLink onClick={(e) => this.handleClick(currentPage + 1)} next={true} />
+								</PaginationItem>
+							</Pagination>
+						</div>
 					) : null}
 				</div>
 			</div>
