@@ -2,13 +2,15 @@ import React from 'react'
 import { Spinner } from 'reactstrap'
 import PropTypes from 'prop-types'
 
+import AltButton from '../UIs/button'
+
 const Loading = ({ error, retry, pastDelay }) => {
 	if (error) {
 		return (
 			<div className="alt-loader-page">
-				<p>
-					Error! <button onClick={retry}>Retry</button>
-				</p>
+				<AltButton onClick={retry} color="link">
+					Error Occured. Please Retry
+				</AltButton>
 			</div>
 		)
 	} else if (pastDelay) {
@@ -20,17 +22,17 @@ const Loading = ({ error, retry, pastDelay }) => {
 	} else {
 		return (
 			<div className="alt-loader-page">
-				<p>Loading ...</p>
+				<Spinner size="lg" type="grow" color="dark" />
 			</div>
 		)
 	}
 }
 
-const { func, bool } = PropTypes
+const { func, bool, object } = PropTypes
 Loading.propTypes = {
 	retry: func,
 	pastDelay: bool,
-	error: bool
+	error: object
 }
 
 export default Loading

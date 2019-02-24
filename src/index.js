@@ -12,7 +12,7 @@ import * as serviceWorker from './serviceWorker'
 
 render(
 	<Provider store={store.store}>
-		<PersistGate loading={<Loading size={100} />} persistor={store.persistor}>
+		<PersistGate loading={<Loading />} persistor={store.persistor}>
 			<Router>
 				<App />
 			</Router>

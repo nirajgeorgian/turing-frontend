@@ -1,4 +1,4 @@
-import { createActions, createAction, handleActions } from 'redux-actions'
+import { createActions, handleActions } from 'redux-actions'
 import { config } from '../../../config'
 
 const { api_url, api_version } = process.env.NODE_ENV === 'production' ? config['prod'] : config['dev']
@@ -23,9 +23,14 @@ export const LOGIN_ERROR_CLEAR = 'LOGIN_ERROR_CLEAR'
 /**
  * All Action creators
  */
-const { login, loginSuccess, loginFail, logoutFail } = createActions(LOGIN, LOGIN_SUCCESS, LOGIN_FAIL, LOGOUT_FAIL)
-export const loginErrorClear = createAction(LOGIN_ERROR_CLEAR)
-const logout = createAction(LOGOUT)
+export const { login, loginSuccess, loginFail, logoutFail, loginErrorClear, logout } = createActions(
+	LOGIN,
+	LOGIN_SUCCESS,
+	LOGIN_FAIL,
+	LOGOUT_FAIL,
+	LOGIN_ERROR_CLEAR,
+	LOGOUT
+)
 export const loginAction = (data) => {
 	return (dispatch, state, { axios, localforage }) => {
 		if (!state().login.status) {
@@ -57,10 +62,8 @@ export const loginAction = (data) => {
 }
 export const logoutAction = () => {
 	return (dispatch, state, { localforage }) => {
-		console.log('dodo')
 		if (state().login.loggedIn) {
 			try {
-				console.log('try')
 				localforage.removeItem('auth_login_token').then(() => {
 					return dispatch(logout())
 				})
