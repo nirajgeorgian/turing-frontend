@@ -35,6 +35,7 @@ class Products extends React.Component {
 						{products.map((item, i) => (
 							<Item
 								key={i}
+								productId={item.product_id}
 								name={item.product.name}
 								price={item.product.price}
 								image={item.product.image}

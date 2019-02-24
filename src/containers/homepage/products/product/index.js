@@ -2,10 +2,12 @@ import React from 'react'
 import { UncontrolledCarousel } from 'reactstrap'
 import PropTypes from 'prop-types'
 
+import { withRouter } from 'react-router-dom'
+
 import { config } from '../../../../config'
 const { images_url } = process.env.NODE_ENV === 'production' ? config['prod'] : config['dev']
 
-const Item = ({ name, price, image, image_2, ...props }) => {
+const Item = ({ name, price, image, image_2, productId, ...props }) => {
 	let firstImage = `${images_url}/${image}`
 	let nextImage = `${images_url}/${image_2}`
 	let items = [
@@ -16,10 +18,11 @@ const Item = ({ name, price, image, image_2, ...props }) => {
 			src: nextImage
 		}
 	]
+
 	return (
 		<div className="col-md-4">
 			<div className="card mb-4 shadow-sm">
-				<div className="card-image-top">
+				<div className="card-image-top" onClick={() => props.history.push(`products/${productId}`)}>
 					<UncontrolledCarousel items={items} autoPlay={false} indicators={false} interval={false} />
 				</div>
 				<div className="card-body">
@@ -40,7 +43,7 @@ const Item = ({ name, price, image, image_2, ...props }) => {
 	)
 }
 
-export default Item
+export default withRouter(Item)
 
 UncontrolledCarousel.propTypes = {
 	items: PropTypes.array.isRequired,
