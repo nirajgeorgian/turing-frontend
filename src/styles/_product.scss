@@ -1,0 +1,14 @@
+.product {
+	margin-bottom: 1rem;
+	&:hover {
+		cursor: pointer;
+	}
+	.product-content {
+		padding: 0.5rem 1.25rem !important;
+	}
+	.added-btn {
+		&:disabled {
+			cursor: not-allowed;
+		}
+	}
+}

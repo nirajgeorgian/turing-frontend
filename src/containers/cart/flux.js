@@ -51,6 +51,32 @@ export const getCartAction = () => {
 		}
 	}
 }
+export const addToCartAction = (values) => {
+	values.buy_now = 'false'
+	values.attribute = ''
+	values.quantity = 1
+	return async (dispatch, state, { axios, localforage, authAxios }) => {
+		if (state().login.loggedIn) {
+			dispatch(cart())
+			const token = await localforage.getItem('auth_login_token')
+			return authAxios(token)
+				.post(`cart/${values.product_id}`, values)
+				.then((res) => {
+					const { status, data } = res
+					if (status === 200) {
+						return dispatch(cartItemUpdate({ data }))
+					} else {
+						return dispatch(cartError({ data }))
+					}
+				})
+				.catch((err) => {
+					return dispatch(cartError(err.response))
+				})
+		} else {
+			return dispatch(cartError({ data: { message: 'Please login to view your cart' } }))
+		}
+	}
+}
 export const removeCartAction = (values) => {
 	return async (dispatch, state, { axios, localforage, authAxios }) => {
 		if (state().login.loggedIn) {
@@ -61,7 +87,7 @@ export const removeCartAction = (values) => {
 				.then((res) => {
 					const { status, data } = res
 					if (status === 200) {
-						return dispatch(cartItemDelete({ data }))
+						return dispatch(cartItemUpdate({ data }))
 					} else {
 						return dispatch(cartError({ data }))
 					}

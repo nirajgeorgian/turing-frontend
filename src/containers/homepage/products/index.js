@@ -4,6 +4,7 @@ import { withRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
 
 import { homeAction } from './flux'
+import { addToCartAction } from '../../cart/flux'
 import Item from './product'
 
 class Products extends React.Component {
@@ -26,23 +27,35 @@ class Products extends React.Component {
 		}
 	}
 
+	// {this.props.cart.error ? (
+	// 	<div className="text-center">
+	// 		<Alert color="danger">{this.props.cart.error}</Alert>
+	// 	</div>
+	// ) : null}
 	render() {
 		let { products } = this.state
 		return (
-			<div className="album py-5 bg-light">
-				<div className="container">
-					<div className="row">
-						{products.map((item, i) => (
-							<Item
-								key={i}
-								productId={item.product_id}
-								name={item.product.name}
-								price={item.product.price}
-								image={item.product.image}
-								image_2={item.product.image_2}
-							/>
-						))}
-					</div>
+			<div className="container">
+				<div className="row">
+					{products.map((item, i) => (
+						<Item
+							key={i}
+							productId={item.product_id}
+							name={item.product.name}
+							price={item.product.price}
+							image={item.product.image}
+							image_2={item.product.image_2}
+							category={item.category.name}
+							department={item.category.department.name}
+							description={
+								item.product.description.length > 35
+									? item.product.description.substring(0, 35) + ' ...'
+									: item.product.description
+							}
+							addToCart={this.props.addToCart}
+							product={item.product}
+						/>
+					))}
 				</div>
 			</div>
 		)
@@ -52,7 +65,8 @@ class Products extends React.Component {
 const mapDispatchToProps = (dispatch) =>
 	bindActionCreators(
 		{
-			fetchProducts: homeAction
+			fetchProducts: homeAction,
+			addToCart: addToCartAction
 		},
 		dispatch
 	)
@@ -61,7 +75,8 @@ export default withRouter(
 	connect(
 		(state) => {
 			return {
-				products: state.home.products
+				products: state.home.products,
+				cart: state.cart
 			}
 		},
 		mapDispatchToProps

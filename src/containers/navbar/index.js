@@ -27,7 +27,7 @@ class AppNavbar extends PureComponent {
 			<>
 				<NavItem>
 					<Link to="/cart" className="nav-link">
-						cart
+						cart <strong>{this.props.cartItems > 0 ? this.props.cartItems : null}</strong>
 					</Link>
 				</NavItem>
 				<UncontrolledDropdown nav inNavbar>

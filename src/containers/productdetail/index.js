@@ -30,7 +30,7 @@ class ProductDetail extends React.Component {
 		if (productDetail.status) {
 			return <p>Loading...</p>
 		} else {
-			const categories = productDetail.categories
+			// const categories = productDetail.categories
 			let firstImage = `${images_url}/${productDetail.image}`
 			let secondImage = `${images_url}/${productDetail.image_2}`
 			let items = [

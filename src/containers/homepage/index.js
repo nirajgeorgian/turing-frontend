@@ -42,31 +42,27 @@ class Homepage extends Component {
 	render() {
 		const { currentPage, products, totalPages, times } = this.state
 		return (
-			<div>
-				<div className="album py-5 bg-light">
-					<div className="container">
-						<div className="row">
-							<Products page={currentPage} products={products} />
-						</div>
-					</div>
-					{totalPages > 1 ? (
-						<div>
-							<Pagination>
-								<PaginationItem disabled={currentPage <= 1}>
-									<PaginationLink onClick={(_) => this.handleClick(currentPage - 1)} previous={true} />
-								</PaginationItem>
-								{times.map((_, i) => (
-									<PaginationItem active={i + 1 === currentPage} key={i}>
-										<PaginationLink onClick={(_) => this.handleClick(i + 1)}>{i + 1}</PaginationLink>
-									</PaginationItem>
-								))}
-								<PaginationItem disabled={totalPages === currentPage}>
-									<PaginationLink onClick={(_) => this.handleClick(currentPage + 1)} next={true} />
-								</PaginationItem>
-							</Pagination>
-						</div>
-					) : null}
+			<div className="">
+				<div className="row">
+					<Products page={currentPage} products={products} />
 				</div>
+				{totalPages > 1 ? (
+					<div>
+						<Pagination>
+							<PaginationItem disabled={currentPage <= 1}>
+								<PaginationLink onClick={(_) => this.handleClick(currentPage - 1)} previous={true} />
+							</PaginationItem>
+							{times.map((_, i) => (
+								<PaginationItem active={i + 1 === currentPage} key={i}>
+									<PaginationLink onClick={(_) => this.handleClick(i + 1)}>{i + 1}</PaginationLink>
+								</PaginationItem>
+							))}
+							<PaginationItem disabled={totalPages === currentPage}>
+								<PaginationLink onClick={(_) => this.handleClick(currentPage + 1)} next={true} />
+							</PaginationItem>
+						</Pagination>
+					</div>
+				) : null}
 			</div>
 		)
 	}

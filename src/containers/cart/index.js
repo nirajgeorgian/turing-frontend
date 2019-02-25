@@ -7,7 +7,7 @@ import { withFormik } from 'formik'
 import AltTextField from '../../components/UIs/input_elements/text_field'
 import AltSelectField from '../../components/UIs/input_elements/select'
 import AltButton from '../../components/UIs/button'
-import { getCartAction, removeCartAction, incrementCartAction, decrementCartAction } from './flex'
+import { getCartAction, removeCartAction, incrementCartAction, decrementCartAction } from './flux'
 import CartItems from './cart_item'
 
 class CartForm extends Component {

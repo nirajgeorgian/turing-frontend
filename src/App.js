@@ -15,7 +15,11 @@ class App extends Component {
 		} = this.props
 		return (
 			<div className="d-flex flex-column h-100">
-				<AppNavbar isAuthenticated={loggedIn} logout={this.props.logoutAction} />
+				<AppNavbar
+					isAuthenticated={loggedIn}
+					logout={this.props.logoutAction}
+					cartItems={this.props.cart.cart.length}
+				/>
 				<main role="main" className="flex-shrink-0">
 					<div className="container">
 						<AppRouter />
@@ -29,7 +33,8 @@ class App extends Component {
 
 const mapStateToProps = (state) => {
 	return {
-		login: state.login
+		login: state.login,
+		cart: state.cart
 	}
 }
 const mapDispatchToAction = (dispatch) => {

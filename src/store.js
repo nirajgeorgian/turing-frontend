@@ -15,7 +15,7 @@ import { loginReducer } from './containers/account/login/flux'
 import { signupReducer } from './containers/account/signup/flux'
 
 import { homeReducer } from './containers/homepage/products/flux'
-import { cartReducer } from './containers/cart/flex'
+import { cartReducer } from './containers/cart/flux'
 import { productReducer } from './containers/productdetail/flux'
 // import { homeReducer } from './containers/homepage/flux'
 
