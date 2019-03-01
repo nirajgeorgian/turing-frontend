@@ -3,6 +3,8 @@ import { connect } from 'react-redux'
 import { withRouter } from 'react-router-dom'
 import { bindActionCreators } from 'redux'
 import { withFormik } from 'formik'
+import StripeCheckout from 'react-stripe-checkout'
+import axios from 'axios'
 
 import AltTextField from '../../components/UIs/input_elements/text_field'
 import AltSelectField from '../../components/UIs/input_elements/select'
@@ -17,6 +19,13 @@ class CartForm extends Component {
 	async componentDidMount() {
 		await this.props.fetchCart()
 		await this.computePrice(this.props.cart.cart)
+	}
+	onToken = (token) => {
+		axios.post('http://localhost:8080/api/v1/payment', token).then((response) => {
+			response.json().then((data) => {
+				alert(`We are in business, ${data.email}`)
+			})
+		})
 	}
 	computePrice = (cart) => {
 		const price = cart.reduce((acc, item) => {
@@ -139,9 +148,17 @@ class CartForm extends Component {
 								</div>
 							</div>
 							<hr className="mb-4" />
-							<AltButton color="primary" size="lg" type="submit" block>
-								Continue To Checkout
-							</AltButton>
+							<StripeCheckout
+								token={this.onToken}
+								stripeKey="pk_test_J9jSgeV7hwhz9WlWbfZL07P2"
+								name="Ecommerce Payment"
+								amount={this.state.price.toFixed(2) * 100}
+								currency="USD"
+								description="Please pay to get your product">
+								<AltButton color="primary" size="lg" type="submit" block>
+									Continue To Checkout
+								</AltButton>
+							</StripeCheckout>
 						</form>
 					</div>
 				</div>
