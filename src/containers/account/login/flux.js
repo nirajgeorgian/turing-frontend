@@ -76,7 +76,7 @@ export const logoutAction = () => {
  */
 export const loginReducer = handleActions(
 	{
-		LOGIN: (state, action) => ({
+		LOGIN: (state) => ({
 			...state,
 			status: true
 		}),
@@ -88,6 +88,7 @@ export const loginReducer = handleActions(
 			token: action.payload.data.token
 		}),
 		LOGIN_FAIL: (state, action) => ({
+			...state,
 			status: false,
 			loggedIn: false,
 			token: null,

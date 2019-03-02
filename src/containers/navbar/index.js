@@ -1,7 +1,4 @@
 import React, { PureComponent } from 'react'
-import { connect } from 'react-redux'
-import { withFormik } from 'formik'
-import * as Yup from 'yup'
 import { Link, withRouter } from 'react-router-dom'
 import {
 	Collapse,
@@ -12,10 +9,9 @@ import {
 	UncontrolledDropdown,
 	DropdownToggle,
 	DropdownMenu,
-	DropdownItem,
-	Form,
-	Input
+	DropdownItem
 } from 'reactstrap'
+import Search from './searchBox'
 
 class AppNavbar extends PureComponent {
 	state = {
@@ -66,15 +62,7 @@ class AppNavbar extends PureComponent {
 						<NavbarToggler onClick={this.toggle} />
 						<Collapse isOpen={this.state.isOpen} navbar>
 							<Nav className="ml-auto" navbar>
-								<Form onSubmit={() => console.log('dodo')}>
-									<Input
-										type="text"
-										name="search"
-										id="search"
-										placeholder="enter product name ..."
-										autoComplete={false}
-									/>
-								</Form>
+								<Search />
 								{isAuthenticated ? authComp : unauthComp}
 							</Nav>
 						</Collapse>

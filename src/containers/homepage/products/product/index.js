@@ -31,7 +31,7 @@ const Item = ({ name, price, image, image_2, productId, description, category, d
 				</CardBody>
 				<CardBody className="d-flex justify-content-between align-items-center product-content">
 					<div className="text-muted">
-						<strong>₹ {price}</strong>
+						<strong>$ {price}</strong>
 					</div>
 					<div className="btn-group">
 						<AltButton outline onClick={() => props.addToCart(props.product)}>

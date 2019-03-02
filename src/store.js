@@ -13,7 +13,7 @@ import { config } from './config'
  */
 import { loginReducer } from './containers/account/login/flux'
 import { signupReducer } from './containers/account/signup/flux'
-
+import { searchReducer } from './containers/navbar/searchBox/flux'
 import { homeReducer } from './containers/homepage/products/flux'
 import { cartReducer } from './containers/cart/flux'
 import { productReducer } from './containers/productdetail/flux'
@@ -34,7 +34,8 @@ const rootReducer = combineReducers({
 	login: loginReducer,
 	signup: signupReducer,
 	cart: cartReducer,
-	product: productReducer
+	product: productReducer,
+	search: searchReducer
 })
 
 /**

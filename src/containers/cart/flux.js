@@ -29,7 +29,7 @@ export const { cart, cartItemUpdate, cartItemDelete, cartItemFetch, cartError, c
 	CART_ERROR_CLEAR
 )
 export const getCartAction = () => {
-	return async (dispatch, state, { axios, localforage, authAxios }) => {
+	return async (dispatch, state, { localforage, authAxios }) => {
 		if (state().login.loggedIn) {
 			dispatch(cart())
 			const token = await localforage.getItem('auth_login_token')
@@ -55,7 +55,7 @@ export const addToCartAction = (values) => {
 	values.buy_now = 'false'
 	values.attribute = ''
 	values.quantity = 1
-	return async (dispatch, state, { axios, localforage, authAxios }) => {
+	return async (dispatch, state, { localforage, authAxios }) => {
 		if (state().login.loggedIn) {
 			dispatch(cart())
 			const token = await localforage.getItem('auth_login_token')
@@ -78,7 +78,7 @@ export const addToCartAction = (values) => {
 	}
 }
 export const removeCartAction = (values) => {
-	return async (dispatch, state, { axios, localforage, authAxios }) => {
+	return async (dispatch, state, { localforage, authAxios }) => {
 		if (state().login.loggedIn) {
 			dispatch(cart())
 			const token = await localforage.getItem('auth_login_token')
@@ -102,7 +102,7 @@ export const removeCartAction = (values) => {
 }
 export const incrementCartAction = (values) => {
 	values.quantity = values.quantity + 1
-	return async (dispatch, state, { axios, localforage, authAxios }) => {
+	return async (dispatch, state, { localforage, authAxios }) => {
 		if (state().login.loggedIn) {
 			dispatch(cart())
 			const token = await localforage.getItem('auth_login_token')
@@ -126,7 +126,7 @@ export const incrementCartAction = (values) => {
 }
 export const decrementCartAction = (values) => {
 	values.quantity = values.quantity - 1
-	return async (dispatch, state, { axios, localforage, authAxios }) => {
+	return async (dispatch, state, { localforage, authAxios }) => {
 		if (state().login.loggedIn) {
 			dispatch(cart())
 			const token = await localforage.getItem('auth_login_token')

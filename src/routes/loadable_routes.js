@@ -29,3 +29,9 @@ export const LoadableProduct = Loadable({
 	loading: Loading,
 	delay: 200
 })
+
+export const LoadableSearch = Loadable({
+	loader: () => import('../containers/search'),
+	loading: Loading,
+	delay: 200
+})

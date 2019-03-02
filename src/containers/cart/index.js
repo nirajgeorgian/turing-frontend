@@ -63,7 +63,7 @@ class CartForm extends Component {
 							cart={this.props.cart.cart}
 							onDelete={this.deleteCartClk}
 							onIncrease={this.increaseCartClk}
-							onDecrease={this.deleteCartClk}
+							onDecrease={this.decreaseCartClk}
 						/>
 						<li className="list-group-item d-flex justify-content-between">
 							<span>Total (USD)</span>
