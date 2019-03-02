@@ -26,12 +26,6 @@ class Products extends React.Component {
 			})
 		}
 	}
-
-	// {this.props.cart.error ? (
-	// 	<div className="text-center">
-	// 		<Alert color="danger">{this.props.cart.error}</Alert>
-	// 	</div>
-	// ) : null}
 	render() {
 		let { products } = this.state
 		return (
@@ -39,7 +33,7 @@ class Products extends React.Component {
 				<div className="row">
 					{products.map((item, i) => (
 						<Item
-							key={i}
+							key={`${i}-${item.product.name}`}
 							productId={item.product_id}
 							name={item.product.name}
 							price={item.product.price}

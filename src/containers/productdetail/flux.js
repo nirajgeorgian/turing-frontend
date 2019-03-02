@@ -35,7 +35,7 @@ export const productAction = (productId) => {
 
 export const productReducer = handleActions(
 	{
-		FETCH_PRODUCT: (state, action) => ({
+		FETCH_PRODUCT: (state) => ({
 			...state,
 			status: true
 		}),

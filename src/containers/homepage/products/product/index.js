@@ -6,9 +6,8 @@ import AltButton from '../../../../components/UIs/button'
 import { config } from '../../../../config'
 const { images_url } = process.env.NODE_ENV === 'production' ? config['prod'] : config['dev']
 
-const Item = ({ name, price, image, image_2, productId, description, category, department, ...props }) => {
+const Item = ({ name, price, image, productId, description, category, department, ...props }) => {
 	let firstImage = `${images_url}/${image}`
-	// let nextImage = `${images_url}/${image_2}`
 	return (
 		<div className="col-md-4 product">
 			<Card>
