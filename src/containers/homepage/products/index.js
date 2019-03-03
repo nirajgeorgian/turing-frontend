@@ -19,7 +19,7 @@ class Products extends React.Component {
 			this.props.filter.category !== nextProps.filter.category ||
 			this.props.filter.department !== nextProps.filter.department
 		) {
-			const { category, department } = await this.props.filter
+			const { category, department } = nextProps.filter
 			const filterBy =
 				category && department ? `&department_name=${decodeURI(department)}&category_name=${decodeURI(category)}` : ''
 			await this.props.fetchProducts(`${nextProps.page}${filterBy}`)

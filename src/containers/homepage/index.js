@@ -32,6 +32,23 @@ class Homepage extends Component {
 		})
 	}
 
+	// async componentWillReceiveProps(nextProps) {
+	// 	console.log("Here: ", nextProps)
+	// 	// const { category, department } = this.props.filter
+	// 	// const filterBy =
+	// 	// 	category && department ? `&department_name=${decodeURI(department)}&category_name=${decodeURI(category)}` : ''
+	// 	// await this.props.fetchProducts(`1${filterBy}`)
+	// 	// let { products } = this.props
+	// 	// let totalProducts = products.count
+	// 	// let totalPages = parseInt(totalProducts / 12)
+	// 	// await this.setState({
+	// 	// 	products: products.rows,
+	// 	// 	totalPages,
+	// 	// 	times: Array(totalPages).fill(0),
+	// 	// 	currentPage: this.props.match.params.id ? Number(this.props.match.params.id) : 1
+	// 	// })
+	// }
+
 	handleClick = async (currentPage) => {
 		this.setState(
 			{
