@@ -17,6 +17,7 @@ import { searchReducer } from './containers/navbar/searchBox/flux'
 import { homeReducer } from './containers/homepage/products/flux'
 import { cartReducer } from './containers/cart/flux'
 import { productReducer } from './containers/productdetail/flux'
+import { filterReducer } from './containers/homepage/filter_by/flux'
 // import { homeReducer } from './containers/homepage/flux'
 
 /**
@@ -35,7 +36,8 @@ const rootReducer = combineReducers({
 	signup: signupReducer,
 	cart: cartReducer,
 	product: productReducer,
-	search: searchReducer
+	search: searchReducer,
+	filter: filterReducer
 })
 
 /**

@@ -7,7 +7,6 @@ import { PropTypes } from 'prop-types'
 import { Pagination, PaginationItem, PaginationLink } from 'reactstrap'
 import { homeAction, homeErrorClear } from './products/flux'
 import Products from './products/index'
-import FilterBy from './filter_by'
 
 class Homepage extends Component {
 	state = {
@@ -43,9 +42,6 @@ class Homepage extends Component {
 		const { currentPage, products, totalPages, times } = this.state
 		return (
 			<div>
-				<div>
-					<FilterBy />
-				</div>
 				<div className="row">
 					<Products page={currentPage} products={products} />
 				</div>

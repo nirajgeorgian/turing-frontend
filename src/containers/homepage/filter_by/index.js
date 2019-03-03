@@ -1,14 +1,15 @@
 import React, { Component } from 'react'
 import { Input, Row, Col } from 'reactstrap'
 import axios from 'axios'
+import { bindActionCreators } from 'redux'
+import { connect } from 'react-redux'
+import { setDepartment, setCategory } from './flux'
 
 class FilterBy extends Component {
 	state = {
 		loading_one: true,
 		departments: [],
-		department: '',
-		categories: [],
-		category: ''
+		categories: []
 	}
 	async componentWillMount() {
 		const {
@@ -23,13 +24,15 @@ class FilterBy extends Component {
 			loading_one: false
 		})
 	}
-	onInputChange = (event) => {
-		this.setState({
-			[event.target.name]: event.target.value
-		})
+	onDepartmentChange = (event) => {
+		this.props.setDepartment({ data: event.target.value })
+	}
+	onCategoryChange = (event) => {
+		this.props.setCategory({ data: event.target.value })
 	}
 	render() {
-		const { loading_one, departments, department, categories } = this.state
+		const { loading_one, departments, categories } = this.state
+		const { department, category } = this.props.filter
 		if (loading_one) {
 			return <div>loading ...</div>
 		}
@@ -37,7 +40,7 @@ class FilterBy extends Component {
 			<Row>
 				<Col md={6}>
 					<p>choose department</p>
-					<Input type="select" name="department" onChange={this.onInputChange}>
+					<Input type="select" name="department" onChange={this.onDepartmentChange} defaultValue={department}>
 						<option />
 						{departments.length > 0 &&
 							departments.map((department, id) => {
@@ -49,7 +52,7 @@ class FilterBy extends Component {
 					{!loading_one && departments.length > 0 && department && (
 						<>
 							<p>choose category</p>
-							<Input type="select" name="category" onChange={this.onInputChange}>
+							<Input type="select" name="category" onChange={this.onCategoryChange} defaultValue={category}>
 								<option />
 								{categories.length > 0 &&
 									categories.map((category, id) => {
@@ -64,4 +67,22 @@ class FilterBy extends Component {
 	}
 }
 
-export default FilterBy
+const mapDispatchToProps = (dispatch) => {
+	return bindActionCreators(
+		{
+			setDepartment,
+			setCategory
+		},
+		dispatch
+	)
+}
+const mapStateToProps = (state) => {
+	return {
+		filter: state.filter
+	}
+}
+
+export default connect(
+	mapStateToProps,
+	mapDispatchToProps
+)(FilterBy)
