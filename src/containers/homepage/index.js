@@ -17,7 +17,10 @@ class Homepage extends Component {
 	}
 
 	async componentDidMount() {
-		await this.props.fetchProducts(1)
+		const { category, department } = this.props.filter
+		const filterBy =
+			category && department ? `&department_name=${decodeURI(department)}&category_name=${decodeURI(category)}` : ''
+		await this.props.fetchProducts(`1${filterBy}`)
 		let { products } = this.props
 		let totalProducts = products.count
 		let totalPages = parseInt(totalProducts / 12)
@@ -78,7 +81,8 @@ const mapDispatchToProps = (dispatch) =>
 const Home = connect(
 	(state) => {
 		return {
-			products: state.home.products
+			products: state.home.products,
+			filter: state.filter
 		}
 	},
 	mapDispatchToProps

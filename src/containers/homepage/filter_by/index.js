@@ -24,11 +24,11 @@ class FilterBy extends Component {
 			loading_one: false
 		})
 	}
-	onDepartmentChange = (event) => {
-		this.props.setDepartment({ data: event.target.value })
+	onDepartmentChange = async (event) => {
+		await this.props.setDepartment({ data: event.target.value })
 	}
-	onCategoryChange = (event) => {
-		this.props.setCategory({ data: event.target.value })
+	onCategoryChange = async (event) => {
+		await this.props.setCategory({ data: event.target.value })
 	}
 	render() {
 		const { loading_one, departments, categories } = this.state

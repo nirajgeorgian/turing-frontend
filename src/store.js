@@ -18,7 +18,6 @@ import { homeReducer } from './containers/homepage/products/flux'
 import { cartReducer } from './containers/cart/flux'
 import { productReducer } from './containers/productdetail/flux'
 import { filterReducer } from './containers/homepage/filter_by/flux'
-// import { homeReducer } from './containers/homepage/flux'
 
 /**
  * [API_URL, API_VERSION]

@@ -14,13 +14,18 @@ class Products extends React.Component {
 		page: 1
 	}
 	async componentWillReceiveProps(nextProps) {
-		if (nextProps.page !== this.state.page) {
-			const { category, department } = this.props.filter
+		if (
+			nextProps.page !== this.state.page ||
+			this.props.filter.category !== nextProps.filter.category ||
+			this.props.filter.department !== nextProps.filter.department
+		) {
+			const { category, department } = await this.props.filter
 			const filterBy =
 				category && department ? `&department_name=${decodeURI(department)}&category_name=${decodeURI(category)}` : ''
 			await this.props.fetchProducts(`${nextProps.page}${filterBy}`)
 			await this.setState({
-				page: nextProps.page
+				page: nextProps.page,
+				products: this.props.products.rows
 			})
 		} else {
 			this.setState({
