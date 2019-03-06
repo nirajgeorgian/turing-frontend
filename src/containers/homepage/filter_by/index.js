@@ -14,10 +14,10 @@ class FilterBy extends Component {
 	async componentWillMount() {
 		const {
 			data: { departments }
-		} = await axios.get('http://localhost:8080/api/v1/departments')
+		} = await axios.get('https://ecommerce-backend-api.herokuapp.com/api/v1/departments')
 		const {
 			data: { categories }
-		} = await axios.get('http://localhost:8080/api/v1/categories')
+		} = await axios.get('https://ecommerce-backend-api.herokuapp.com/api/v1/categories')
 		await this.setState({
 			departments,
 			categories,
